@@ -99,6 +99,7 @@ for i in range(7):
     parts_other = kf_other.split(selected_other_patients)
     indices_metastasis = next(parts_metastasis, None)
     indices_other = next(parts_other, None)
+    fold_number = 1
     while(indices_metastasis):
         lr = 0.5
         #Define the model
@@ -145,7 +146,8 @@ for i in range(7):
         test_batch_Y_hat = model.forward(test_list)
         dummy, preds_test = torch.max (test_batch_Y_hat, dim = 1)
         accuracy_test = (preds_test == Y_test).long().sum().float() /  preds_test.size()[0]
-        print("Fold: " + str(i) + " ACC: " + str(accuracy_test))
+        print("Fold: " + str(fold_number) + " ACC: " + str(accuracy_test))
+        fold_number += 1
         folds_accuracy.append(accuracy_test)
         indices_metastasis = next(parts_metastasis, None)
         indices_other = next(parts_other, None)    
